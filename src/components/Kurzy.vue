@@ -11,15 +11,12 @@
                   <div class="row">
                     <div class="col">
                        <div class="input-group mb-3">                        
-                        <p type="text" class="form-control" > {{anotherSelect}} </p>
+                        <input type="number" class="form-control"  v-model="Exchange" @change="currencyExchange()"> 
                       </div>
                     </div>
                     <div class="col">
                       
-                      <select class="custom-select custom-select-sm mb-3"  v-model="anotherSelect">
-                        <option  selected>{{currencies.base}}</option>
-                        <option v-for="(currencyValue, currencyName, currencyIdx) in currencies.rates" :key="currencyIdx" :value="currencyValue">{{ currencyName }}</option>                    
-                    </select>
+                      <p>{{currencies.base}}</p>
                    
                     </div>
                   </div>
@@ -27,12 +24,13 @@
                   <div class="row">
                     <div class="col">
                        <div class="input-group mb-3">                        
-                        <p type="text" class="form-control" > {{selected}} </p>
+                      <input type="number" class="form-control" :placeholder="[[currencyExchange()]]"> 
+                       
                       </div>
                     </div>
                     <div class="col">
                       <select class="custom-select custom-select-sm mb-3" v-model="selected">
-                        <option  selected>{{currencies.base}}</option>
+                        <option  selected></option>
                        <option v-for="(currencyValue, currencyName, currencyIdx) in currencies.rates" :key="currencyIdx" :value="currencyValue">{{ currencyName }}</option>                      
                     </select>
                     </div>
@@ -57,8 +55,10 @@ export default {
   name: "Kurzy",
   data(){
       return {
+        Exchange: '',
         selected: '',
         anotherSelect: '',
+        currencyValue: '',
         currencies: [  
                ],
       }
@@ -67,7 +67,12 @@ export default {
       menoveKurzy().then( currencyName=>{
         this.currencies = currencyName;
       })
-  }
+  },
+   methods: {
+     currencyExchange: function(){
+      return (this.Exchange * this.selected).toFixed(2);  
+     }
+   }
 };
 </script>
 
